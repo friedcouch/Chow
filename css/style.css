@@ -1,0 +1,60 @@
+h2 {
+  margin-top: 0;
+}
+
+p {
+  width: 50vw;
+  text-align: center;
+}
+
+* {
+  font-family: "Consolas", monospace;
+  color: #eee;
+}
+
+a button {
+  color: #333;
+}
+
+a button:hover {
+  cursor: pointer;
+}
+
+body {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  left: 0;
+  top: 0;
+  background-color: rgba(7, 7, 7, 0.6);
+}
+
+html {
+  padding: 0;
+  display: relative;
+  background-color: rgba(7, 7, 7, 0.5);
+  background-image: url("../img/bg/4.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+@media only screen and (max-width: 800px) {
+  html {
+    background-image: url("../img/bg/2.jpg");
+  }
+}
+@media only screen and (max-width: 600px) {
+  html {
+    background-image: url("../img/bg/1.jpg");
+  }
+
+  p {
+    width: 70vw;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */
