@@ -281,11 +281,10 @@ const request = (path, data) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   })
-    .then(res => { console.log(); return res.json() })
-    .then(res => { console.log(); return res })
+    .then(res => res.json())
 }
 
-if (localStorage.user) {
+if (localStorage.user !== '') {
   getCreatedRecipe(JSON.parse(localStorage.user).id)
     .then(recipeArr => {
       const recipeObjs = Object.fromEntries(recipeArr.map(r => [r.id, r]))
