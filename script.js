@@ -21,6 +21,8 @@ formBg.click(event => {
     $('#instructions ul li').remove()
     $(recipeEditor).data('isOpen', 'false')
   }
+  $('[name="email"], [name="username"], [name="password"]').val('')
+  $('.error').text('')
   closePopup(formBg)
 })
 
@@ -31,7 +33,8 @@ signUpForm.submit(event => {
   const password = event.target[2].value
   signUp(email, password, username)
     .then(res => {
-      localStorage.user = JSON.stringify(res.user)
+      if (res.error) throw res.error
+      localStorage.user = JSON.stringify(res.data[0])
       recipes.html('')
       closePopup(signUpForm)
       closePopup(formBg)
@@ -39,9 +42,7 @@ signUpForm.submit(event => {
       hideBtn($('#btn-sign-up'))
       showBtn($('#btn-sign-out'))
     })
-    .catch(err => {
-      $('#form-sign-up .error').text(err)
-    })
+    .catch(err => $('#form-sign-up .error').text(err))
 })
 
 signInForm.submit(async (event) => {
@@ -50,26 +51,22 @@ signInForm.submit(async (event) => {
   const password = event.target[1].value
   signIn(email, password)
     .then(res => {
-      if (res.error) {
-        $('#form-sign-in .error').text(user.error)
-        return
-      }
-      $('#form-sign-in .error').text('')
+      if (res.error) throw res.error
+      localStorage.user = JSON.stringify(res.user)
       closePopup(signInForm)
       closePopup(formBg)
       hideBtn($('#btn-sign-in'))
       hideBtn($('#btn-sign-up'))
       showBtn($('#btn-sign-out'))
-      localStorage.user = JSON.stringify(res.user)
-      getCreatedRecipe(res.user.id)
-        .then(recipeArr => {
-          recipes.html('')
-          const recipeObjs = Object.fromEntries(recipeArr.map(r => [r.id, r]))
-          displayRecipes(recipeObjs)
-          localStorage.recipes = JSON.stringify(recipeObjs)
-        })
+      return getCreatedRecipe(res.user.id)
     })
-    .catch(err => err)
+    .then(recipeArr => {
+      recipes.html('')
+      const recipeObjs = Object.fromEntries(recipeArr.map(r => [r.id, r]))
+      displayRecipes(recipeObjs)
+      localStorage.recipes = JSON.stringify(recipeObjs)
+    })
+    .catch(err => $('#form-sign-in .error').text(err))
 })
 
 // Adds new input fields
@@ -276,14 +273,13 @@ const updateRecipe = async (recipeId, name, ingredients, instructions) => {
 }
 
 const request = (path, data) => {
-  return fetch(`./api/${path}`, {
+  return fetch(`/api/${path}`, {
     method: 'POST',
     mode: 'cors',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   })
     .then(res => res.json())
-    .then(res => res)
 }
 
 if (localStorage.user) {
