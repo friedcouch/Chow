@@ -10,7 +10,9 @@ module.exports = (request, response) => {
     .delete()
     .match({ id: recipeId })
     .then(res => {
-      if (res.error) response.json({ error: res.error.message })
+      if (res.error) throw res.error.message
       response.json(res.data[0])
     })
+    .catch(error => response.json({ error }))
+
 }

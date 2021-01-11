@@ -10,7 +10,8 @@ module.exports = (request, response) => {
     .select('*')
     .eq('creator_id', creatorId)
     .then(res => {
-      if (res.error) response.json(res.error.message)
+      if (res.error) throw res.error.message
       response.json(res.data)
     })
+    .catch(error => response.json({ error }))
 }
