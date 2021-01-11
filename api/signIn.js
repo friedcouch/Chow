@@ -16,10 +16,7 @@ module.exports = (request, response) => {
     })
     .then(res => {
       if (res.error) throw res.error.message
-      response.json({
-        user: res.data[0],
-        authToken: supabase.auth.session()
-      })
+      response.json(res.data[0])
     })
     .catch(error => response.json({ error }))
 }

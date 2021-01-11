@@ -42,11 +42,9 @@ module.exports = (request, response) => {
           .from('users')
           .insert({ username: username, uuid: res.user.id })
       })
-      .then(res =>       
-        response.json({
-          user: res.data[0],
-          authToken: supabase.auth.session()
-        })
-      )
+      .then(res => {     
+        if (res.error) throw res.error.message
+        response.json(res.data[0])
+      })
       .catch(error => response.json({ error }))
 }
