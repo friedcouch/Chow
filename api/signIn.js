@@ -8,21 +8,18 @@ module.exports = (request, response) => {
   supabase.auth
     .signIn({ email, password })
     .then(res => {
-      if (res.error) {
-        response.json({ error: res.error.message })
-        return
-      }
-      console.group(supabase.auth.session())
+      if (res.error) throw res.error.message
       return supabase
         .from('users')
         .select('*')
         .eq('uuid', res.user.id) // res.user.id is the UUID in auth.users
-        .then(res => {
-          if (res.error) response.json(res.error.message)
-          response.json({
-            user: res.data[0],
-            authToken: supabase.auth.session()
-          })
-        })
     })
+    .then(res => {
+      if (res.error) throw res.error.message
+      response.json({
+        user: res.data[0],
+        authToken: supabase.auth.session()
+      })
+    })
+    .catch(error => response.json({ error }))
 }
