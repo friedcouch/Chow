@@ -7,7 +7,7 @@ module.exports = (request, response) => {
   const { email, password } = request.body
   console.log(email)
   supabase.auth
-    .signIn({ 'b@b.b', 'ccc' })
+    .signIn({ email: 'b@b.b', password: 'ccc' })
     .then(res => {
       console.log(res)
       if (res.error) throw res.error.message
