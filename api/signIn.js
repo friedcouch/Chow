@@ -5,9 +5,11 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
 module.exports = (request, response) => {
   const { email, password } = request.body
+  console.log(email)
   supabase.auth
     .signIn({ email, password })
     .then(res => {
+      console.log(res)
       if (res.error) throw res.error.message
       return supabase
         .from('users')
@@ -15,6 +17,7 @@ module.exports = (request, response) => {
         .eq('uuid', res.user.id) // res.user.id is the UUID in auth.users
     })
     .then(res => {
+      console.log(res.data[0])
       if (res.error) throw res.error.message
       response.json(res.data[0])
     })

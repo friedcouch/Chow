@@ -33,6 +33,7 @@ signUpForm.submit(event => {
   const password = event.target[2].value
   signUp(email, password, username)
     .then(res => {
+      console.log(res)
       if (res.error) throw res.error
       localStorage.user = JSON.stringify(res)
       recipes.html('')
@@ -51,6 +52,7 @@ signInForm.submit(async (event) => {
   const password = event.target[1].value
   signIn(email, password)
     .then(res => {
+      console.log(res)
       if (res.error) throw res.error
       localStorage.user = JSON.stringify(res.user)
       closePopup(signInForm)
@@ -273,6 +275,7 @@ const updateRecipe = async (recipeId, name, ingredients, instructions) => {
 }
 
 const request = (path, data) => {
+  console.log(path, data)
   return fetch(`/api/${path}`, {
     method: 'POST',
     mode: 'cors',
