@@ -3,21 +3,93 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css" type="text/css">
-  <link href="https://fonts.googleapis.com/css2?family=Consolas&family=Roboto&display=swap" rel="stylesheet">
-  <title>Chow</title>
+  <link rel="stylesheet" href="css/style.css">
+  <title></title>
 </head>
 <body>
-  <div class="filter"></div>
-  <h2>Chow.</h2>
-  <p>
-    Chow is a website for making and storing recipes.<br />
-    Chow also lets you search for ingredients' nutritional values.
-  </p>
-  <div>
-    <a href="#"><button>Sign up</button></a>
-    <a href="#"><button>Log in</button></a>
+  <button id="btn-sign-in">sign-in</button>
+  <button id="btn-sign-up">sign-up</button>
+  <button id="btn-sign-out">sign-out</button>
+
+  <div id="form-bg" class="hidden"></div>
+
+  <form id="form-sign-up" class="hidden popup">
+    <h2>sign up form</h2>
+    <label for="username">Username</label>
+    <input type="text" name="username">
+    <br />
+    <label for="email">Email</label>
+    <input type="email" name="email">
+    <br />
+    <label for="password">Password</label>
+    <input type="password" name="password">
+    <br />
+    <span class="error"></span>
+    <input type="submit">
+  </form>
+
+  <form id="form-sign-in" class="hidden popup">
+    <h2>sign in form</h2>
+    <label for="email">Email</label>
+    <input type="email" name="email">
+    <br />
+    <label for="password">Password</label>
+    <input type="password" name="password">
+    <br />
+    <span class="error"></span>
+    <input type="submit">
+  </form>
+
+  <div id="missing-ingredients" class="hidden popup">
+    <span></span>
+    <button class="cancel">cancel</button>
+    <button class="continue">continue</button>
   </div>
 
+  <div id="delete-recipe" class="hidden popup">
+    <span>Are you sure you want to delete this recipe? This action cannot be undone.</span>
+    <button class="cancel">cancel</button>
+    <button class="continue">continue</button>
+  </div>
+
+  <div id="nutrition-facts" class="hidden popup">
+    <div>
+      <div id="nutrients" class="column">
+      <span class="header">NUTRITION</span>
+      <span class="bold serving-size">serving size (g)</span>
+      <span class="bold calories">calories</span>
+      <span class="bold protein">protein (g)</span>
+      <span class="bold fat-total">total fat (g)</span>
+      <span class="indent fat-saturated">saturated fat (g)</span>
+      <span class="bold cholesterol">cholesterol (mg)</span>
+      <span class="bold carbs-total">carbohydrates (g)</span>
+      <span class="indent fiber">fiber (g)</span>
+      <span class="indent sugar">sugar (g)</span>
+      <span class="bold sodium">sodium (mg)</span>
+      <span class="potassium">potassium (mg)</span>
+    </div>
+    </div>
+    <div id="ingredient-container"></div>
+  </div>
+
+  <form id="edit-recipe" class="hidden popup" data-just-opened="false"
+    data-is-open="false" data-is-new="false" data-recipe-id="">
+    <input id='recipe-name' type="text" placeholder="name" required>
+    <div id="ingredients">
+      <ul></ul>
+      <button type="button" class="add">add</button>
+    </div>
+    <div id="instructions">
+      <ul></ul>
+      <button type="button" class="add">add</button>
+    </div>
+    <input type="submit" value="submit">
+  </form>
+
+  <ul id="recipes"></ul>
+  <button id="add-recipe">new recipe</button>
+
+  <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="./script.js"></script>
 </body>
 </html>
