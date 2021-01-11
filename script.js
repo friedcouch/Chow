@@ -54,7 +54,7 @@ signInForm.submit(async (event) => {
     .then(res => {
       console.log(res)
       if (res.error) throw res.error
-      localStorage.user = JSON.stringify(res.user)
+      localStorage.user = JSON.stringify(res)
       closePopup(signInForm)
       closePopup(formBg)
       hideBtn($('#btn-sign-in'))
@@ -275,14 +275,14 @@ const updateRecipe = async (recipeId, name, ingredients, instructions) => {
 }
 
 const request = (path, data) => {
-  console.log(path, data)
-  return fetch(`/api/${path}`, {
+  return fetch(`/.netlify/functions/${path}`, {
     method: 'POST',
     mode: 'cors',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   })
-    .then(res => res.json())
+    .then(res => { console.log(); return res.json() })
+    .then(res => { console.log(); return res })
 }
 
 if (localStorage.user) {
