@@ -34,7 +34,7 @@ signUpForm.submit(event => {
   signUp(email, password, username)
     .then(res => {
       if (res.error) throw res.error
-      localStorage.user = JSON.stringify(res.data[0])
+      localStorage.user = JSON.stringify(res)
       recipes.html('')
       closePopup(signUpForm)
       closePopup(formBg)
