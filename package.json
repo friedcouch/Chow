@@ -1,8 +1,7 @@
 {
   "name": "supabase",
   "version": "1.0.0",
-  "description": "",
-  "main": "a.js",
+  "description": "A website for making and storing recipes",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,7 +9,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@supabase/supabase-js": "^1.1.2",
-    "browserify": "^17.0.0"
-  }
+    "@supabase/supabase-js": "^1.1.2"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/friedcouch/Chow.git"
+  },
+  "bugs": {
+    "url": "https://github.com/friedcouch/Chow/issues"
+  },
+  "homepage": "https://github.com/friedcouch/Chow#readme"
 }
