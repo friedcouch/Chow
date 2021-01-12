@@ -1,53 +1,57 @@
 $header-font: 'Consolas', monospace
 $paragraph-font: 'Roboto', sans-serif
+$bg-color: #30323d
+$color: #70af85
 
-// h2
-//   margin-top: 0
-// p
-//   width: 50vw
-//   text-align: center
+h1
+  color: $color
+  margin-bottom: 0.1em
+
+h2
+  color: #999
+  margin-top: 0
+
+h3
+  margin: 0.5em 0 0 0
+  padding-bottom: 0.01em
 
 *
   font-family: $header-font
-  // color: #eee
 
-// a button
-//   color: #333
-
-// a button:hover
-//   cursor: pointer
+html
+  background-color: $bg-color
 
 body
   display: flex
   flex-flow: column wrap
-  // justify-content: center
-  // align-items: center
-  // width: 100vw
-  // height: 100vh
-  // margin: 0
-  // left: 0
-  // top: 0
-  // background-color: rgba(7, 7, 7, 0.6)
+  justify-content: center
+  align-items: center
+  width: 100vw
+  height: 100vh
+  margin: 0
 
-// html
-//   padding: 0
-//   display: relative
-//   background-color: rgba(7, 7, 7, 0.5)
-//   background-image: url('../img/bg/4.jpg')
-//   background-size: cover
-//   background-repeat: no-repeat
-  
-// @media only screen and (max-width: 800px)
+.continue
+  margin-bottom: 1em
 
-//   html
-//     background-image: url('../img/bg/2.jpg')
+button, input[type="submit"]
+  border-width: 0
+  border-style: none
+  border-radius: 2px
+  padding: 0.25em 0.5em
+  margin: 0.125em
+  width: fit-content
+  height: fit-content
 
-// @media only screen and (max-width: 600px)
-//   html
-//     background-image: url('../img/bg/1.jpg')
+input[type="submit"]
+  background-color: $color
+  color: $bg-color
+
+input[type="submit"], input#recipe-name
+  margin: 1em
     
-//   p
-//     width: 70vw
+p
+  width: 70%
+
 .hidden
   display: none
   position: fixed
@@ -58,25 +62,55 @@ body
   width: 100%
   height: 100%
   z-index: 0
-  background-color: rgba(7, 7, 7, 0.7)
+  background-color: rgba(34, 36, 47, 0.7)
 
 .popup
+  background-color: #40424d
+  color: $color
+  border-radius: 0.7em
   flex-flow: column wrap
   align-items: center
   justify-content: center
   align-self: center
   z-index: 1
 
+#recipes
+  color: $color
+
+#recipes li
+  margin: 0.7em 0
+
+#edit-recipe
+  width: 80%
+  color: $color
+
+#edit-recipe li:not(:first-child)
+  display: flex
+  flex: column
+  justify-content: center
+  align-content: center
+  align-items: center
+
+#edit-recipe li:first-child
+  margin: 0.125em 0
+
+#ingredients, #instructions
+  display: flex
+  flex-flow: column wrap
+  align-items: center
+
 #btn-sign-out
   display: none
-  
+
 #form-sign-up, #form-sign-in, #missing-ingredients, #form-recipe
   top: 10%
   width: 50%
   height: 80%
   max-width: 600px
-  background-color: #999
 
+label
+  color: #c0c2cd
+  
 li
   list-style: none
 
@@ -89,16 +123,17 @@ ul
 #nutrition-facts, #ingredient-container
   display: flex
   flex-flow: row
+  color: #20222d
 
 #nutrients, #ingredient-container
   overflow-x: scroll
+  background-color: #fff
 
 #nutrition-facts
   width: 90%
   max-width: 100%
   top: 15%
   height: 70%
-  background-color: #ccc
 
 #ingredient-container div, #nutrients
   border-right: 1px solid black
