@@ -1,4 +1,5 @@
-window.userToken = null;
+window.userToken = null
+localStorage.recipes = ''
 
 const signUpForm = $('#form-sign-up')
 const signInForm = $('#form-sign-in')
@@ -36,12 +37,7 @@ signUpForm.submit(event => {
       console.log(res)
       if (res.error) throw res.error
       localStorage.user = JSON.stringify(res)
-      recipes.html('')
-      closePopup(signUpForm)
-      closePopup(formBg)
-      hideBtn($('#btn-sign-in'))
-      hideBtn($('#btn-sign-up'))
-      showBtn($('#btn-sign-out'))
+      window.location.reload()
     })
     .catch(err => $('#form-sign-up .error').text(err))
 })
@@ -55,15 +51,10 @@ signInForm.submit(async (event) => {
       console.log(res)
       if (res.error) throw res.error
       localStorage.user = JSON.stringify(res)
-      closePopup(signInForm)
-      closePopup(formBg)
-      hideBtn($('#btn-sign-in'))
-      hideBtn($('#btn-sign-up'))
-      showBtn($('#btn-sign-out'))
+      window.location.reload()
       return getCreatedRecipe(res.user.id)
     })
     .then(recipeArr => {
-      recipes.html('')
       const recipeObjs = Object.fromEntries(recipeArr.map(r => [r.id, r]))
       displayRecipes(recipeObjs)
       localStorage.recipes = JSON.stringify(recipeObjs)
@@ -110,12 +101,15 @@ recipes.on('click', '.edit', event => {
   $(recipeEditor).data('recipeId', recipeId)
 
   $('#recipe-name').val(recipe.name)
+
   // for some reason, when I've just edited/added a recipe and submit,
   // the next time I click on 'edit'/'new recipe', the input fields are duplicated
   // if 'justOpened' is false, it will not run the for loops, preventing duplicates
+  let ingredientCount = 0
+  let instructionsCount = 0
   if ($(recipeEditor).data('justOpened') === 'false') {
-    for (const ingredient of recipe.ingredients) addInput('ingredient', ingredient)
-    for (const instruction of recipe.instructions) addInput('instruction', instruction)
+    for (const ingredient of recipe.ingredients) { addInput('ingredient', ingredient); ++ingredientCount }
+    for (const instruction of recipe.instructions) { addInput('instruction', instruction); ++instructionCount }
   }
   $(recipeEditor).data('justOpened', 'false')
 })
@@ -293,6 +287,7 @@ if (localStorage.user !== '') {
       hideBtn($('#btn-sign-in'))
       hideBtn($('#btn-sign-up'))
       showBtn($('#btn-sign-out'))
+      showBtn($('#add-recipe'))
     })
 } else {
   localStorage.clear()
