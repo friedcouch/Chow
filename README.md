@@ -1,5 +1,6 @@
 # ID Assignment 2
 ## Chow
+[Link](https://choww.netlify.app)
 This website's purpose is to let users store recipes and edit them.
 Additionally, users can look at the nutritional values of the recipe's ingredients.
 I had the idea to make this website because I was interested in meal-prep.
