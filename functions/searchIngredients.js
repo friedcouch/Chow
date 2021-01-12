@@ -6,8 +6,9 @@ exports.handler = async (event, context) => {
   const data = await fetch(`https://api.calorieninjas.com/v1/nutrition?query=${ingredients}`, {
     headers: { 'x-api-key': CALORIE_NINJA_KEY }
   })
+    .then(res => res.json())
   return {
     statusCode: 200,
-    body: data
+    body: JSON.stringify(data)
   }
 }
