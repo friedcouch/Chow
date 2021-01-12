@@ -75,7 +75,7 @@ recipes.on('click', '.delete', event => {
   openPopup($('#delete-recipe'))
 })
 
-$('#delete-recipe .cancel').click(function () {
+$('#delete-recipe .cancel').click(() => {
   closePopup($('#delete-recipe'))
   closePopup(formBg)
 })
@@ -101,17 +101,24 @@ recipes.on('click', '.edit', event => {
   $(recipeEditor).data('recipeId', recipeId)
 
   $('#recipe-name').val(recipe.name)
-
   // for some reason, when I've just edited/added a recipe and submit,
   // the next time I click on 'edit'/'new recipe', the input fields are duplicated
   // if 'justOpened' is false, it will not run the for loops, preventing duplicates
-  let ingredientCount = 0
-  let instructionsCount = 0
-  if ($(recipeEditor).data('justOpened') === 'false') {
-    for (const ingredient of recipe.ingredients) { addInput('ingredient', ingredient); ++ingredientCount }
-    for (const instruction of recipe.instructions) { addInput('instruction', instruction); ++instructionCount }
+  console.log($(recipeEditor).data('justOpened') === false)
+  if ($(recipeEditor).data('justOpened') === false) {
+    if (recipe.ingredients.length) {
+      for (const ingredient of recipe.ingredients) addInput('ingredient', ingredient)
+    }    
+    else {
+      addInput('ingredient', '')
+    }    
+    if (recipe.ingredients.length) {
+      for (const instruction of recipe.instructions) addInput('instruction', instruction)
+    } else {
+      addInput('isntruction', '')
+    }
   }
-  $(recipeEditor).data('justOpened', 'false')
+  $(recipeEditor).data('justOpened', false)
 })
 
 $('#add-recipe').click(event => {
@@ -127,11 +134,11 @@ $('#add-recipe').click(event => {
 recipeEditor.submit(event => {
   event.preventDefault()
 
-  $(recipeEditor).data('justOpened', 'true')
+  $(recipeEditor).data('justOpened', true)
 
   const name = $('#recipe-name').val()
   const ingredients = $.map($('#ingredients ul li input'), element => element.value)
-  const instructions = $.map($('#instructions ul li input'), element => element.value)
+  const instructions = $.map($('#instructions ul li textarea'), element => element.value)
   
   if ($(recipeEditor).data('isNew') === 'true') {
     const userId = JSON.parse(localStorage.user).id
@@ -147,6 +154,7 @@ recipeEditor.submit(event => {
     console.log(recipeId)
     updateRecipe(recipeId, name, ingredients, instructions)
       .then(recipe => {
+        console.log(recipe)
         $(`#${recipeId} a`).text(recipe.name)
         updateRecipeInfo(recipe)
         closePopup(recipeEditor)
@@ -173,12 +181,20 @@ const openPopup = (element) => {
 const closePopup = (element) => element.css('display', 'none')
 
 const addInput = (inputName, inputVal) => {
-  $(`#${inputName}s ul`).append(`
-  <li>
-    <input type="text" placeholder="${inputName}" value="${inputVal}">
-    <button type="button" class="delete">delete</button>
-  </li>
-  `)
+  if (inputName === 'ingredient')
+    $(`#${inputName}s ul`).append(`
+    <li>
+      <input type="text" placeholder="${inputName}" value="${inputVal}">
+      <button type="button" class="delete">delete</button>
+    </li>
+    `)
+  else
+    $(`#${inputName}s ul`).append(`
+    <li>
+      <textarea cols="28" rows="3" placeholder="${inputName}">${inputVal}</textarea>
+      <button type="button" class="delete">delete</button>
+    </li>
+    `)
 }
 
 const displayRecipes = (recipeObjs) => {
@@ -207,16 +223,7 @@ closePopup($('#nutrition-facts'))
 const searchIngredients = (ingredientsArr, isForDisplay) => {
   const ingredients = ingredientsArr.join(' ')
   return request('searchIngredients', { ingredients })
-    .then(res => {
-      if (!isForDisplay)
-        missingIngredientsPrompt(ingredientsArr.length - res.items.length)
-      console.log(res.items)
-        return (res.items)
-    })
-}
-
-const missingIngredientsPrompt = (missingCount) => {
-
+    .then(res => res.items)
 }
 
 const displayNutrition = async (ingredientsArr) => {
