@@ -5,7 +5,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
 exports.handler = async (event, context) => {
   const { name, ingredients, instructions, creatorId } = JSON.parse(event.body)
-  supabase
+  const data = await supabase
     .from('recipes')
     .insert({
       name: name,
